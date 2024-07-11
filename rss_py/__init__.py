@@ -10,15 +10,20 @@ env.trim_blocks = True
 template = env.get_template('rss.xml')
 
 
-def dt_to_str(dt_obj):
+def handle_dates(dt_obj):
+    if not(dt_obj.tzinfo is not None and dt_obj.tzinfo.utcoffset(dt_obj) is not None):
+        raise Exception("Pass in a timezone aware datetime object.")
     return dt_obj.strftime("%a, %d %b %Y %H:%M:%S %z")
 
 def build(**kwargs):
     if kwargs.get("lastBuildDate"):
-        dt_obj = kwargs["lastBuildDate"]
-        if not(dt_obj.tzinfo is not None and dt_obj.tzinfo.utcoffset(dt_obj) is not None):
-            raise Exception("Pass in a timezone aware datetime object.")
-        kwargs["lastBuildDate"] = dt_to_str(dt_obj)
+        kwargs["lastBuildDate"] = handle_dates(kwargs["lastBuildDate"])
+    if kwargs.get("pubDate"):
+        kwargs["pubDate"] = handle_dates(kwargs["pubDate"])
+
+    for idx, item in enumerate(kwargs.get("items", [])):
+        if item.get("pubDate"):
+            kwargs["items"][idx]["pubDate"] = handle_dates(item["pubDate"])
 
     return template.render(
         **kwargs
