@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>{{ title }}</title>
+        <link>{{ link }}</link>
+        <description>{{ description }}</description>
+        {% if language %}
+        <language>{{ language }}</language>
+        {% endif %}
+        {% if copyright %}
+        <copyright>{{ copyright }}</copyright>
+        {% endif %}
+        {% if managingEditor %}
+        <managingEditor>{{ managingEditor }}</managingEditor>
+        {% endif %}
+        {% if webMaster %}
+        <webMaster>{{ webMaster }}</webMaster>
+        {% endif %}
+        {% if pubDate %}
+        <pubDate>{{ pubDate }}</pubDate>
+        {% endif %}
+        {% if lastBuildDate %}
+        <lastBuildDate>{{ lastBuildDate }}</lastBuildDate>
+        {% endif %}
+        {% if generator %}
+        <generator>{{ generator }}</generator>
+        {% endif %}
+        {% if docs %}
+        <docs>{{ docs }}</docs>
+        {% endif %}
+        {% if ttl %}
+        <docs>{{ ttl }}</docs>
+        {% endif %}
+        {% for item in items %}
+        <item>
+            {% if item.title %}
+            <title>{{ item.title | e}}</title>
+            {% endif %}
+            {% if item.link %}
+            <link>{{ item.link }}</link>
+            {% endif %}
+            {% if item.description %}
+            <description>{{ item.description | e }}</description>
+            {% endif %}
+            {% if item.author %}
+            <author>{{ item.author }}
+            {% endif %}
+            {% if item.pubDate %}
+            <pubDate>{{ item.pubDate }}</pubDate>
+            {% endif %}
+            {%  if item.guid %}
+            <guid>{{ item.guid }}</guid>
+            {% else %}
+            <guid>{{ item.link }}</guid>
+            {% endif %}
+        </item>
+        {% endfor %}
+    </channel>
+</rss>
