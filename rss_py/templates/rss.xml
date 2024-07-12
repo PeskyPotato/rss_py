@@ -53,7 +53,7 @@
             {% endif %}
             {%  if item.guid %}
             <guid>{{ item.guid }}</guid>
-            {% else %}
+            {% elif item.link %}
             <guid>{{ item.link }}</guid>
             {% endif %}
         </item>
