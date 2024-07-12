@@ -22,6 +22,11 @@
         {% if lastBuildDate %}
         <lastBuildDate>{{ lastBuildDate }}</lastBuildDate>
         {% endif %}
+        {% if categories %}
+        {% with indent='        ',categories=categories %}
+        {% include 'category.xml' %}
+        {% endwith %}
+        {% endif %}
         {% if generator %}
         <generator>{{ generator }}</generator>
         {% endif %}
@@ -47,6 +52,11 @@
             {% endif %}
             {% if item.author %}
             <author>{{ item.author }}
+            {% endif %}
+            {% if item.categories %}
+            {% with indent='            ',categories=item.categories %}
+            {% include 'category.xml' %}
+            {% endwith %}
             {% endif %}
             {% if item.pubDate %}
             <pubDate>{{ item.pubDate }}</pubDate>

@@ -1,0 +1,3 @@
+{% for category in categories %}
+{{ indent }}<category{% if category.domain %} domain="{{ category.domain }}"{% endif %}>{{ category.text }}</category>
+{% endfor %}
