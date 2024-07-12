@@ -60,12 +60,10 @@ class TestDate(TestCase):
         <item>
             <title>Post 1</title>
             <pubDate>Fri, 21 Jun 2024 07:18:32 +0000</pubDate>
-            <guid></guid>
         </item>
         <item>
             <title>Post 2</title>
             <pubDate>Mon, 01 Jul 2024 15:42:59 +0000</pubDate>
-            <guid></guid>
         </item>
     </channel>
 </rss>""")
