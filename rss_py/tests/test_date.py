@@ -81,3 +81,30 @@ class TestDate(TestCase):
                 "title": "Post 1",
                 "pubDate": datetime.datetime(2024, 7, 11, 15, 42, 59)
             }])
+        
+    def test_with_tz_pubDate(self):
+        r = rss_py.build(
+            title="Bob's blog",
+            link="https://example.com/",
+            description="A collection of Bob's thoughts.",
+            pubDate=datetime.datetime(2024, 6, 21, 7, 18, 32, tzinfo=pytz.UTC)
+        )
+        self.assertEqual(r,
+            """<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>Bob's blog</title>
+        <link>https://example.com/</link>
+        <description>A collection of Bob's thoughts.</description>
+        <pubDate>Fri, 21 Jun 2024 07:18:32 +0000</pubDate>
+    </channel>
+</rss>""")
+        
+    def test_without_tz_pubDate(self):
+        self.assertRaises(
+            Exception,
+            rss_py.build,
+            title="Bob's blog",
+            link="https://example.com/",
+            pubDate=datetime.datetime(2024, 7, 5, 15, 42, 59),
+        )
