@@ -34,7 +34,7 @@
         <docs>{{ docs }}</docs>
         {% endif %}
         {% if ttl %}
-        <docs>{{ ttl }}</docs>
+        <ttl>{{ ttl }}</ttl>
         {% endif %}
         {% if atomSelfLink %}
         <atom:link href="{{ atomSelfLink }}" rel="self" type="application/rss+xml" />
