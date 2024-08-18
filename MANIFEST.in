@@ -1,1 +1,2 @@
 include rss_py/templates/*
+include README.md
