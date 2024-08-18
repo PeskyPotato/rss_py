@@ -39,4 +39,15 @@ print(r)
 Items should contain a `guid` and this is usually a permalink. If no `guid` is specified the package will use the item's `link` value to set the `guid`. See more details about the `guid` element at the [W3C's Feed Validation Service.](https://validator.w3.org/feed/docs/warning/MissingGuid.html)
 
 ### Identifying a feed's URL
-It's good practice to include `atom:link` and `rel="self"` in the `<channel>`. To set a URL include the `atomSelfLink` parameter with the feeds URL as a string in the build function. This will add the Atom namespace along with the `atom:link` and appropriate parameters to the channel. See more details on the [W3C's Feed Validation Service.](https://validator.w3.org/feed/docs/warning/MissingAtomSelfLink.html)
+It's good practice to include `atom:link` and `rel="self"` in the `<channel>`. To set this include the feeds URL with the `atomSelfLink` parameter when calling build. For example:
+
+```python
+    rss_py.build(
+        title="Title goes here",
+        link="https://example.com/"
+        atomSelfLink="https://example.com/rss.xml"
+    )
+```
+
+This will add the Atom namespace along with the `atom:link` and appropriate parameters to the channel. To learn more about `atom:link` see the [W3C's Feed Validation Service.](https://validator.w3.org/feed/docs/warning/MissingAtomSelfLink.html)
+
