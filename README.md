@@ -19,13 +19,13 @@ r = rss_py.build(
     items=[
         {
             "title": "CAF trains for the MerwedeLingelijn",
-            "pubDate": datetime.datetime(2024, 3, 23, 2, 20, 23, tzinfo=pytz.UTC),
+            "pubDate": datetime.datetime(2024, 3, 23, 2, 20, 23, tzinfo=datetime.imezone.utc),
             "description": "<p>The MerwedeLingelijn stretches 49km from Dordrecht to Gorinchem across the Drechtsteden, Molenlanden, and Gorinchem (DMG) regions in Zuid Holland. The line is mostly single-track with passing opportunities at most stations. Like other public transport modes in the area, the trains on the MerwedeLingelijn are operated by Qbuzz.</p>",
             "link": "https://blog.pesky.moe/posts/2024-03-24-qbuzz-caf/"
         },
         {
             "title": "Good transit: Coverage and Frequency",
-            "pubDate": datetime.datetime(2024, 3, 3, 6, 1, 00, tzinfo=pytz.UTC),
+            "pubDate": datetime.datetime(2024, 3, 3, 6, 1, 00, tzinfo=datetime.timezone.utc),
             "description": "When examining passenger mobility, there are many angles from which to explore effective transportation systems: service reliability, cleanliness, comfort, cost, transit coverage, service frequency, and more. While this topic is extensive, I will specifically focus on the coverage of a public transit network within an area and the significant role that frequency plays in it. I will be using the public transit system in the region of Utrecht, which is operated by Qbuzz under the name U-OV, as a demonstration. The region includes nine municipalities and a population of over 700,000. A total of 46 routes are run by U-OV, four of which are light rail and the rest are bus.",
             "link": "https://blog.pesky.moe/posts/2024-03-03-coverage-frequency/"
         }
@@ -51,3 +51,19 @@ It's good practice to include `atom:link` and `rel="self"` in the `<channel>`. T
 
 This will add the Atom namespace along with the `atom:link` and appropriate parameters to the channel. To learn more about `atom:link` see the [W3C's Feed Validation Service.](https://validator.w3.org/feed/docs/warning/MissingAtomSelfLink.html)
 
+### Setting dates
+RSS feeds use dates in the RFC-822 format which include a timezone offset or three letter code. With rss_py you can simply pass a timezone-aware Python datetime object for parameters that require dates and times such as `lastBuildDate` or an items `pubDate`. Here are some examples of how to create them dynamically in Python:
+
+```python
+from datetime import datetime, timezone
+# Current time in UTC to datetime object
+datetime.now(timezone.utc)
+
+# Convert timestamp in UTC to datetime object
+datetime.fromtimestamp(1723990968, tz= timezone.utc))
+
+# Create datetime object from a specific date and time
+datetime(2024, 8, 18, 14, 42, 56, tzinfo=timezone.utc)
+```
+
+Read more about RSS dates from [W3C's Feed Validation Service.](https://validator.w3.org/feed/docs/error/InvalidRFC2822Date.html)
