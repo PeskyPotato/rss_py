@@ -36,6 +36,27 @@
         {% if ttl %}
         <ttl>{{ ttl }}</ttl>
         {% endif %}
+        {% if image %}
+        <image>
+            <url>{{ image.url }}</url>
+            {% if not image.title %}
+            <title>{{ title }}</title>
+            {% else %}
+            <title>{{ image.title }}</title>
+            {% endif %}
+            {% if not image.link %}
+            <link>{{ link }}</link>
+            {% else %}
+            <link>{{ image.link }}</link>
+            {% endif %}
+            {% if image.width %}
+            <width>{{ image.width }}</width>
+            {% endif %}
+            {% if image.height %}
+            <height>{{ image.height }}</height>
+            {% endif %}
+        </image>
+        {% endif %}
         {% if atomSelfLink %}
         <atom:link href="{{ atomSelfLink }}" rel="self" type="application/rss+xml" />
         {% endif %}

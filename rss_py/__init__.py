@@ -21,6 +21,12 @@ def build(**kwargs):
     if kwargs.get("pubDate"):
         kwargs["pubDate"] = handle_dates(kwargs["pubDate"])
 
+    if kwargs.get("image"):
+        if kwargs["image"].get("width", 0) > 144 or kwargs["image"].get("width", 0) < 0:
+            kwargs["image"]["width"] = 88
+        if kwargs["image"].get("height", 0) > 400 or kwargs["image"].get("height", 0) < 0:
+            kwargs["image"]["height"] = 31
+ 
     for idx, item in enumerate(kwargs.get("items", [])):
         if item.get("pubDate"):
             kwargs["items"][idx]["pubDate"] = handle_dates(item["pubDate"])
