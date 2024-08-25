@@ -87,6 +87,9 @@
             {% elif item.link %}
             <guid>{{ item.link }}</guid>
             {% endif %}
+            {% if item.comments %}
+            <comments>{{ item.comments }}</comments>
+            {% endif %}
         </item>
         {% endfor %}
     </channel>
