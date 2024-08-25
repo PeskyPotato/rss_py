@@ -90,6 +90,9 @@
             {% if item.comments %}
             <comments>{{ item.comments }}</comments>
             {% endif %}
+            {% if item.source %}
+            <source url="{{ item.source.url }}">{{ item.source.title }}</source>
+            {% endif %}
         </item>
         {% endfor %}
     </channel>

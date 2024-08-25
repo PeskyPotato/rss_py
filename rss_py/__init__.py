@@ -10,6 +10,11 @@ env.trim_blocks = True
 template = env.get_template('rss.xml')
 
 
+def validate_source(source):
+    if not source.get("url"):
+        raise Exception("Item source must have an URL.")
+    return True
+
 def validate_image(image):
     if not isinstance(image.get("width", 0), int) or not isinstance(image.get("height", 0), int):
         raise Exception("Channel image width and height must be an integer.")
@@ -36,6 +41,9 @@ def build(**kwargs):
     for idx, item in enumerate(kwargs.get("items", [])):
         if item.get("pubDate"):
             kwargs["items"][idx]["pubDate"] = handle_dates(item["pubDate"])
+
+        if item.get("source"):
+            validate_source(item["source"])
 
     return template.render(
         **kwargs
