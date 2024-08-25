@@ -3,9 +3,8 @@
 A Python module to generate valid RSS 2.0 feeds.
 
 ## Installation
-
+Within the root rss_py folder use pip to install.
 ```bash
-# In root rss_py folder
 pip install .
 ```
 
@@ -15,11 +14,11 @@ pip install .
 r = rss_py.build(
     title="Pesky's blog",
     link="https://blog.pesky.com/",
-    description="A collections of Peksy's ramblings.",
+    description="A collections of Pesky's ramblings.",
     items=[
         {
             "title": "CAF trains for the MerwedeLingelijn",
-            "pubDate": datetime.datetime(2024, 3, 23, 2, 20, 23, tzinfo=datetime.imezone.utc),
+            "pubDate": datetime.datetime(2024, 3, 23, 2, 20, 23, tzinfo=datetime.timezone.utc),
             "description": "<p>The MerwedeLingelijn stretches 49km from Dordrecht to Gorinchem across the Drechtsteden, Molenlanden, and Gorinchem (DMG) regions in Zuid Holland. The line is mostly single-track with passing opportunities at most stations. Like other public transport modes in the area, the trains on the MerwedeLingelijn are operated by Qbuzz.</p>",
             "link": "https://blog.pesky.moe/posts/2024-03-24-qbuzz-caf/"
         },
