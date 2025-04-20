@@ -3,9 +3,8 @@
 A Python module to generate valid RSS 2.0 feeds.
 
 ## Installation
-
+Within the root rss_py folder use pip to install.
 ```bash
-# In root rss_py folder
 pip install .
 ```
 
@@ -15,11 +14,11 @@ pip install .
 r = rss_py.build(
     title="Pesky's blog",
     link="https://blog.pesky.com/",
-    description="A collections of Peksy's ramblings.",
+    description="A collections of Pesky's ramblings.",
     items=[
         {
             "title": "CAF trains for the MerwedeLingelijn",
-            "pubDate": datetime.datetime(2024, 3, 23, 2, 20, 23, tzinfo=datetime.imezone.utc),
+            "pubDate": datetime.datetime(2024, 3, 23, 2, 20, 23, tzinfo=datetime.timezone.utc),
             "description": "<p>The MerwedeLingelijn stretches 49km from Dordrecht to Gorinchem across the Drechtsteden, Molenlanden, and Gorinchem (DMG) regions in Zuid Holland. The line is mostly single-track with passing opportunities at most stations. Like other public transport modes in the area, the trains on the MerwedeLingelijn are operated by Qbuzz.</p>",
             "link": "https://blog.pesky.moe/posts/2024-03-24-qbuzz-caf/"
         },
@@ -67,3 +66,22 @@ datetime(2024, 8, 18, 14, 42, 56, tzinfo=timezone.utc)
 ```
 
 Read more about RSS dates from [W3C's Feed Validation Service.](https://validator.w3.org/feed/docs/error/InvalidRFC2822Date.html)
+
+## Adding channel image
+An optional channel image can be added by providing a URL to a gif, jpeg, or png image.
+
+This tool will also add a title and link to the image which matches the channel `<title>` and `<link>` properties. You can overwrite this by passing an title or link to the image specifically although this is [not recommended](https://www.rssboard.org/rss-specification#ltimagegtSubelementOfLtchannelgt). The title is used as an the alt attribute for the image and typically matches the channel title, and the link is the URL of the site which typically matches the channel URL.
+
+Along with an image you can also provide a height and width attribute. The height must be between 1 and 400, and width must be between 1 and 144. If integers outside these ranges are provided a default of height of 31 and width of 88 will be used.
+
+An example of a valid channel image:
+```python
+rss_py.build(
+    title="Bob's blog",
+    link="http://example.com/",
+    description="A collection of Bob's thoughts.",
+    image = {
+        "url": "http://example.com/static/header.png"
+    }
+)
+```
