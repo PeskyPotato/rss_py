@@ -5,7 +5,7 @@ def readme():
         return f.read()
 
 setup(name='rss_py',
-    version='0.1',
+    version='0.2',
     description='Write an RSS feed',
     long_description=readme(),
     classifiers=[
