@@ -10,6 +10,22 @@ env.trim_blocks = True
 template = env.get_template('rss.xml')
 
 
+def validate_enclosure(enclosure):
+    if not enclosure.get("url"):
+        raise Exception("Item enclosure must have an URL.")
+    if not enclosure.get("length"):
+        raise Exception("Item enclosure must have an attribute length.")
+    try:
+        length = enclosure.get("length")
+        length = int(length)
+        if length < 0:
+            raise Exception("Item enclosure attribute length must be a positive intenger.")
+    except ValueError:
+        raise ValueError("Item enclosure attribute length must be an integer.")
+    if not enclosure.get("type"):
+        raise Exception("Item enclosure must have an attribute type.")
+    return True
+
 def validate_source(source):
     if not source.get("url"):
         raise Exception("Item source must have an URL.")
@@ -44,6 +60,9 @@ def build(**kwargs):
 
         if item.get("source"):
             validate_source(item["source"])
+
+        if item.get("enclosure"):
+            validate_enclosure(item["enclosure"])
 
     return template.render(
         **kwargs
