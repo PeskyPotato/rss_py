@@ -16,7 +16,7 @@ setup(name='rss_py',
     author='PeskyPotato',
     license='MIT',
     packages=['rss_py'],
-    install_packages=[
+    install_requires=[
         'Jinja2'
     ],
     zip_safe=False,
