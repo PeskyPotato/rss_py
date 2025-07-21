@@ -10,19 +10,7 @@ env.trim_blocks = True
 template = env.get_template('rss.xml')
 
 
-def validate_source(source):
-    if not source.get("url"):
-        raise Exception("Item source must have an URL.")
-    return True
-
-def validate_image(image):
-    if not isinstance(image.get("width", 0), int) or not isinstance(image.get("height", 0), int):
-        raise Exception("Channel image width and height must be an integer.")
-    if image.get("width", 0) > 144 or image.get("width", 0) < 0:
-        image["width"] = 88
-    if image.get("height", 0) > 400 or image.get("height", 0) < 0:
-        image["height"] = 31
-    return image
+from .validators import validate_source, validate_image
 
 def handle_dates(dt_obj):
     if not(dt_obj.tzinfo is not None and dt_obj.tzinfo.utcoffset(dt_obj) is not None):
