@@ -67,7 +67,7 @@ class TestItem(TestCase):
 
     def test_item_source_no_url(self):
         self.assertRaises(
-            Exception,
+            ValueError,
             rss_py.build,
             title="Bob's blog",
             link="https://example.com/",
