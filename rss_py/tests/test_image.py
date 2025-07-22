@@ -121,7 +121,7 @@ class TestDate(TestCase):
 
     def test_image_height_str(self):
         self.assertRaises(
-            Exception,
+            TypeError,
             rss_py.build,
             title="Bob's blog",
             link="https://example.com/",
@@ -129,6 +129,19 @@ class TestDate(TestCase):
             image = {
                 "url": "http://example.com/static/header.png",
                 "height": "15"
+            }
+        )
+
+    def test_image_width_str(self):
+        self.assertRaises(
+            TypeError,
+            rss_py.build,
+            title="Bob's blog",
+            link="https://example.com/",
+            description="A collection of Bob's thoughts.",
+            image = {
+                "url": "http://example.com/static/header.png",
+                "width": "15"
             }
         )
 

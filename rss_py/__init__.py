@@ -10,6 +10,9 @@ env.trim_blocks = True
 template = env.get_template('rss.xml')
 
 
+from .validators import CloudProtocol, validate_source, validate_image, validate_cloud
+
+
 def validate_enclosure(enclosure):
     if not enclosure.get("url"):
         raise Exception("Item enclosure must have an URL.")
@@ -26,19 +29,6 @@ def validate_enclosure(enclosure):
         raise Exception("Item enclosure must have an attribute type.")
     return True
 
-def validate_source(source):
-    if not source.get("url"):
-        raise Exception("Item source must have an URL.")
-    return True
-
-def validate_image(image):
-    if not isinstance(image.get("width", 0), int) or not isinstance(image.get("height", 0), int):
-        raise Exception("Channel image width and height must be an integer.")
-    if image.get("width", 0) > 144 or image.get("width", 0) < 0:
-        image["width"] = 88
-    if image.get("height", 0) > 400 or image.get("height", 0) < 0:
-        image["height"] = 31
-    return image
 
 def handle_dates(dt_obj):
     if not(dt_obj.tzinfo is not None and dt_obj.tzinfo.utcoffset(dt_obj) is not None):
@@ -50,6 +40,9 @@ def build(**kwargs):
         kwargs["lastBuildDate"] = handle_dates(kwargs["lastBuildDate"])
     if kwargs.get("pubDate"):
         kwargs["pubDate"] = handle_dates(kwargs["pubDate"])
+
+    if kwargs.get("cloud"):
+        kwargs["cloud"] = validate_cloud(kwargs["cloud"])
 
     if kwargs.get("image"):
         kwargs["image"] = validate_image(kwargs["image"])

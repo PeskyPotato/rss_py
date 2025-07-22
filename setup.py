@@ -5,7 +5,7 @@ def readme():
         return f.read()
 
 setup(name='rss_py',
-    version='0.2',
+    version='0.2.1',
     description='Write an RSS feed',
     long_description=readme(),
     classifiers=[
@@ -16,7 +16,7 @@ setup(name='rss_py',
     author='PeskyPotato',
     license='MIT',
     packages=['rss_py'],
-    install_packages=[
+    install_requires=[
         'Jinja2'
     ],
     zip_safe=False,

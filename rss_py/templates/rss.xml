@@ -57,6 +57,9 @@
             {% endif %}
         </image>
         {% endif %}
+        {% if cloud %}
+        <cloud domain="{{ cloud.domain }}" port="{{ cloud.port }}" path="{{ cloud.path }}" registerProcedure="{{ cloud.registerProcedure }}" protocol="{{ cloud.protocol }}" />
+        {% endif %}
         {% if atomSelfLink %}
         <atom:link href="{{ atomSelfLink }}" rel="self" type="application/rss+xml" />
         {% endif %}
