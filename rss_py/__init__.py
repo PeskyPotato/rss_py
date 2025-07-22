@@ -12,6 +12,7 @@ template = env.get_template('rss.xml')
 
 from .validators import CloudProtocol, validate_source, validate_image, validate_cloud
 
+
 def handle_dates(dt_obj):
     if not(dt_obj.tzinfo is not None and dt_obj.tzinfo.utcoffset(dt_obj) is not None):
         raise Exception("Pass in a timezone aware datetime object.")
