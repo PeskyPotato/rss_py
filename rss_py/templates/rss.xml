@@ -96,6 +96,9 @@
             {% if item.source %}
             <source url="{{ item.source.url }}">{{ item.source.title }}</source>
             {% endif %}
+            {% if item.enclosure %}
+            <enclosure url="{{ item.enclosure.url }}" length="{{ item.enclosure.length }}" type="{{ item.enclosure.type }}"/>
+            {% endif %}
         </item>
         {% endfor %}
     </channel>

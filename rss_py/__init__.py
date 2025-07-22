@@ -10,7 +10,10 @@ env.trim_blocks = True
 template = env.get_template('rss.xml')
 
 
-from .validators import CloudProtocol, validate_source, validate_image, validate_cloud
+from .validators import (
+    CloudProtocol, validate_source, validate_image, validate_cloud,
+    validate_enclosure
+)
 
 
 def handle_dates(dt_obj):
@@ -25,10 +28,10 @@ def build(**kwargs):
         kwargs["pubDate"] = handle_dates(kwargs["pubDate"])
 
     if kwargs.get("cloud"):
-        kwargs["cloud"] = validate_cloud(kwargs["cloud"])
+        validate_cloud(kwargs["cloud"])
 
     if kwargs.get("image"):
-        kwargs["image"] = validate_image(kwargs["image"])
+        validate_image(kwargs["image"])
 
     for idx, item in enumerate(kwargs.get("items", [])):
         if item.get("pubDate"):
@@ -36,6 +39,9 @@ def build(**kwargs):
 
         if item.get("source"):
             validate_source(item["source"])
+
+        if item.get("enclosure"):
+            validate_enclosure(item["enclosure"])
 
     return template.render(
         **kwargs
