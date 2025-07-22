@@ -28,10 +28,10 @@ def build(**kwargs):
         kwargs["pubDate"] = handle_dates(kwargs["pubDate"])
 
     if kwargs.get("cloud"):
-        kwargs["cloud"] = validate_cloud(kwargs["cloud"])
+        validate_cloud(kwargs["cloud"])
 
     if kwargs.get("image"):
-        kwargs["image"] = validate_image(kwargs["image"])
+        validate_image(kwargs["image"])
 
     for idx, item in enumerate(kwargs.get("items", [])):
         if item.get("pubDate"):
