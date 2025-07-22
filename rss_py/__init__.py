@@ -10,7 +10,8 @@ env.trim_blocks = True
 template = env.get_template('rss.xml')
 
 
-from .validators import validate_source, validate_image
+from .validators import CloudProtocol, validate_source, validate_image, validate_cloud
+
 
 def handle_dates(dt_obj):
     if not(dt_obj.tzinfo is not None and dt_obj.tzinfo.utcoffset(dt_obj) is not None):
@@ -22,6 +23,9 @@ def build(**kwargs):
         kwargs["lastBuildDate"] = handle_dates(kwargs["lastBuildDate"])
     if kwargs.get("pubDate"):
         kwargs["pubDate"] = handle_dates(kwargs["pubDate"])
+
+    if kwargs.get("cloud"):
+        kwargs["cloud"] = validate_cloud(kwargs["cloud"])
 
     if kwargs.get("image"):
         kwargs["image"] = validate_image(kwargs["image"])
