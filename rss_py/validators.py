@@ -1,3 +1,13 @@
+from enum import Enum
+
+
+def assert_require_fields(name, element, fields):
+    for key in fields:
+        if key not in element.keys():
+            raise ValueError(f"{name} must have an attribute: {key}")
+    return None
+
+
 # Validate source
 # TODO: Check that URL is valid
 def validate_source(source):
@@ -21,3 +31,30 @@ def validate_image(image):
     if image.get("height", 0) > MAX_IMAGE_HEIGHT or image.get("height", 0) < 0:
         image["height"] = DEFAULT_IMAGE_HEIGHT
     return image
+
+
+# Cloud validation
+class CloudProtocol(Enum):
+    XML_RPC = "xml-rpc"
+    SOAP = "soap"
+    REST = "http-post"
+
+
+def validate_cloud(cloud):
+    assert_require_fields(
+        "cloud",
+        cloud,
+        ["domain", "port", "path", "registerProcedure", "protocol"]
+    )
+
+    if not isinstance(cloud.get("protocol"), CloudProtocol):
+        raise TypeError("Cloud protocol must of of type CloudProtocol")
+    else:
+        cloud["protocol"] = cloud["protocol"].value
+
+    if not isinstance(cloud.get("port"), int):
+        raise TypeError("Cloud port must of type int")
+    else:
+        cloud["port"] = str(cloud["port"])
+
+    return cloud
