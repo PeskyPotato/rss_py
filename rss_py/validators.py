@@ -58,3 +58,21 @@ def validate_cloud(cloud):
         cloud["port"] = str(cloud["port"])
 
     return cloud
+
+
+# Enclosure validation
+def validate_enclosure(enclosure):
+    assert_require_fields(
+        "enclosure", enclosure,
+        ["url", "length", "type"]
+    )
+
+    if not isinstance(enclosure.get("length"), int) :
+        raise TypeError("Item enclosure attribute length must be a positive integer")
+        
+    if enclosure.get("length") < 0:
+        raise Exception("Item enclosure attribute length must be a positive intenger")
+ 
+    enclosure["length"] = str(enclosure["length"])
+    
+    return enclosure

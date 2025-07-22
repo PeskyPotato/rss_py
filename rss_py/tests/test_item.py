@@ -125,7 +125,7 @@ class TestItem(TestCase):
                     "pubDate": datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
                     "enclosure": {
                         "url": "https://example.com/",
-                        "length": "123456",
+                        "length": 123456,
                         "type": "audio/mpeg"
                     }
                 }
@@ -149,7 +149,7 @@ class TestItem(TestCase):
 
     def test_item_enclosure_no_url(self):
         self.assertRaises(
-            Exception,
+            ValueError,
             rss_py.build,
             title="Bob's blog",
             link="https://example.com/",
@@ -158,7 +158,7 @@ class TestItem(TestCase):
                 "title": "Post with a source",
                 "pubDate": datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
                 "enclosure": {
-                    "length": "123456",
+                    "length": 12345,
                     "type": "audio/mpeg"
                 }
             }]
@@ -176,7 +176,7 @@ class TestItem(TestCase):
                 "pubDate": datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
                 "enclosure": {
                     "url": "https://example.com/",
-                    "length": "-1234",
+                    "length": -1234,
                     "type": "audio/mpeg"
                 }
             }]
@@ -184,7 +184,7 @@ class TestItem(TestCase):
 
     def test_item_enclosure_non_int_length(self):
         self.assertRaises(
-            Exception,
+            TypeError,
             rss_py.build,
             title="Bob's blog",
             link="https://example.com/",
@@ -202,7 +202,7 @@ class TestItem(TestCase):
 
     def test_item_enclosure_no_type(self):
         self.assertRaises(
-            Exception,
+            ValueError,
             rss_py.build,
             title="Bob's blog",
             link="https://example.com/",
