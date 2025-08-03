@@ -11,26 +11,27 @@ pip install .
 ## Generate an RSS feed
 
 ```python
-r = rss_py.build(
+feed = rss_py.Channel(
     title="Pesky's blog",
-    link="https://blog.pesky.com/",
-    description="A collections of Pesky's ramblings.",
+    link="https://blog.pesky.moe/",
+    description="A collection of Pesky's ramblings",
     items=[
-        {
-            "title": "CAF trains for the MerwedeLingelijn",
-            "pubDate": datetime.datetime(2024, 3, 23, 2, 20, 23, tzinfo=datetime.timezone.utc),
-            "description": "<p>The MerwedeLingelijn stretches 49km from Dordrecht to Gorinchem across the Drechtsteden, Molenlanden, and Gorinchem (DMG) regions in Zuid Holland. The line is mostly single-track with passing opportunities at most stations. Like other public transport modes in the area, the trains on the MerwedeLingelijn are operated by Qbuzz.</p>",
-            "link": "https://blog.pesky.moe/posts/2024-03-24-qbuzz-caf/"
-        },
-        {
-            "title": "Good transit: Coverage and Frequency",
-            "pubDate": datetime.datetime(2024, 3, 3, 6, 1, 00, tzinfo=datetime.timezone.utc),
-            "description": "When examining passenger mobility, there are many angles from which to explore effective transportation systems: service reliability, cleanliness, comfort, cost, transit coverage, service frequency, and more. While this topic is extensive, I will specifically focus on the coverage of a public transit network within an area and the significant role that frequency plays in it. I will be using the public transit system in the region of Utrecht, which is operated by Qbuzz under the name U-OV, as a demonstration. The region includes nine municipalities and a population of over 700,000. A total of 46 routes are run by U-OV, four of which are light rail and the rest are bus.",
-            "link": "https://blog.pesky.moe/posts/2024-03-03-coverage-frequency/"
-        }
+        rss_py.Item(
+            title="CAF trains for the MerwedeLingelijn",
+            pubDate=datetime.datetime(2024, 3, 23, 2, 20, 23, tzinfo=datetime.timezone.utc),
+            description="<p>The MerwedeLingelijn stretches 49km from Dordrecht to Gorinchem across the Drechtsteden, Molenlanden, and Gorinchem (DMG) regions in Zuid Holland. The line is mostly single-track with passing opportunities at most stations. Like other public transport modes in the area, the trains on the MerwedeLingelijn are operated by Qbuzz.</p>",
+            link="https://blog.pesky.moe/posts/2024-03-24-qbuzz-caf/"
+        ),
+        rss_py.Item(
+            title="Good transit: Coverage and Frequency",
+            pubDate=datetime.datetime(2024, 3, 3, 6, 1, 00, tzinfo=datetime.timezone.utc),
+            description="When examining passenger mobility, there are many angles from which to explore effective transportation systems: service reliability, cleanliness, comfort, cost, transit coverage, service frequency, and more. While this topic is extensive, I will specifically focus on the coverage of a public transit network within an area and the significant role that frequency plays in it. I will be using the public transit system in the region of Utrecht, which is operated by Qbuzz under the name U-OV, as a demonstration. The region includes nine municipalities and a population of over 700,000. A total of 46 routes are run by U-OV, four of which are light rail and the rest are bus.",
+            link="https://blog.pesky.moe/posts/2024-03-03-coverage-frequency/"
+        )
     ]
 )
-print(r)
+
+print(rss_py.build(feed))
 ```
 
 ## Best practices
@@ -41,11 +42,12 @@ Items should contain a `guid` and this is usually a permalink. If no `guid` is s
 It's good practice to include `atom:link` and `rel="self"` in the `<channel>`. To set this include the feeds URL with the `atomSelfLink` parameter when calling build. For example:
 
 ```python
-    rss_py.build(
-        title="Title goes here",
-        link="https://example.com/"
-        atomSelfLink="https://example.com/rss.xml"
-    )
+rss_py.build(rss_py.Channel(
+    title="Title goes here",
+    link="https://example.com/",
+    description="Description goes here",
+    atomSelfLink="https://example.com/rss.xml"
+))
 ```
 
 This will add the Atom namespace along with the `atom:link` and appropriate parameters to the channel. To learn more about `atom:link` see the [W3C's Feed Validation Service.](https://validator.w3.org/feed/docs/warning/MissingAtomSelfLink.html)
@@ -76,12 +78,12 @@ Along with an image you can also provide a height and width attribute. The heigh
 
 An example of a valid channel image:
 ```python
-rss_py.build(
+rss_py.build(rss_py.Channel(
     title="Bob's blog",
     link="http://example.com/",
     description="A collection of Bob's thoughts.",
     image = {
         "url": "http://example.com/static/header.png"
     }
-)
+))
 ```
