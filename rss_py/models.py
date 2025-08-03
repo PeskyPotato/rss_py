@@ -11,6 +11,16 @@ def handle_dates(dt_obj):
     return dt_obj.strftime("%a, %d %b %Y %H:%M:%S %z")
 
 
+class Cloud:
+    def __init__(self, domain, port, path, registerProcedure, protocol):
+        self.domain = domain
+        self.port = port
+        self.path = path
+        self.registerProcedure = registerProcedure
+        self.protocol = protocol
+
+        validate_cloud(self)
+
 class Item:
     def __init__(self, title=None, link=None, description=None, author=None,
                  categories=None, comments=None, enclosure=None, guid=None,

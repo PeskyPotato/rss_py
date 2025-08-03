@@ -41,21 +41,11 @@ class CloudProtocol(Enum):
 
 
 def validate_cloud(cloud):
-    assert_require_fields(
-        "cloud",
-        cloud,
-        ["domain", "port", "path", "registerProcedure", "protocol"]
-    )
-
-    if not isinstance(cloud.get("protocol"), CloudProtocol):
+    if not isinstance(cloud.protocol, CloudProtocol):
         raise TypeError("Cloud protocol must of of type CloudProtocol")
-    else:
-        cloud["protocol"] = cloud["protocol"].value
 
-    if not isinstance(cloud.get("port"), int):
+    if not isinstance(cloud.port, int):
         raise TypeError("Cloud port must of type int")
-    else:
-        cloud["port"] = str(cloud["port"])
 
     return cloud
 

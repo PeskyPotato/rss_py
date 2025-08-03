@@ -87,3 +87,21 @@ rss_py.build(rss_py.Channel(
     }
 ))
 ```
+
+## Adding cloud
+
+RSS supports adding a reference to an [rssCloud interface](https://www.rssboard.org/rsscloud-interface) as part of the channel element. This can be created using the `Cloud` class with the five required parameters; domain, port, path, registerProcedure and protocol. There are three supported protocols and this package provides them as an enum called `CloudProtocol`.
+
+- `CloudProtocol.XML_RPC` for "xml-rpc"
+- `CloudProtocol.SOAP` for "soap"
+- `CloudProtocol.REST` for "http-post"
+
+An example of the of a channel with an rssCloud interface:
+```python
+feed = rss_py.Channel(
+    title="Bob's channel",
+    link="https://example.com/",
+    description="A place for Bob's videos.",
+    cloud= rss_py.Cloud("example.com", 80, path="/RPC2", registerProcedure="myCloud.rssPleaseNotify", protocol=rss_py.CloudProtocol.REST)
+)
+```

@@ -58,7 +58,7 @@
         </image>
         {% endif %}
         {% if channel.cloud %}
-        <cloud domain="{{ channel.cloud.domain }}" port="{{ channel.cloud.port }}" path="{{ channel.cloud.path }}" registerProcedure="{{ channel.cloud.registerProcedure }}" protocol="{{ channel.cloud.protocol }}" />
+        <cloud domain="{{ channel.cloud.domain }}" port="{{ channel.cloud.port }}" path="{{ channel.cloud.path }}" registerProcedure="{{ channel.cloud.registerProcedure }}" protocol="{{ channel.cloud.protocol.value }}" />
         {% endif %}
         {% if channel.atomSelfLink %}
         <atom:link href="{{ channel.atomSelfLink }}" rel="self" type="application/rss+xml" />
