@@ -1,69 +1,69 @@
 <?xml version="1.0"?>
-<rss version="2.0"{% if atomSelfLink %} xmlns:atom="http://www.w3.org/2005/Atom"{% endif %}>
+<rss version="2.0"{% if channel.atomSelfLink %} xmlns:atom="http://www.w3.org/2005/Atom"{% endif %}>
     <channel>
-        <title>{{ title }}</title>
-        <link>{{ link }}</link>
-        <description>{{ description }}</description>
-        {% if language %}
-        <language>{{ language }}</language>
+        <title>{{ channel.title }}</title>
+        <link>{{ channel.link }}</link>
+        <description>{{ channel.description }}</description>
+        {% if channel.language %}
+        <language>{{ channel.language }}</language>
         {% endif %}
-        {% if copyright %}
-        <copyright>{{ copyright }}</copyright>
+        {% if channel.copyright %}
+        <copyright>{{ channel.copyright }}</copyright>
         {% endif %}
-        {% if managingEditor %}
-        <managingEditor>{{ managingEditor }}</managingEditor>
+        {% if channel.managingEditor %}
+        <managingEditor>{{ channel.managingEditor }}</managingEditor>
         {% endif %}
-        {% if webMaster %}
-        <webMaster>{{ webMaster }}</webMaster>
+        {% if channel.webMaster %}
+        <webMaster>{{ channel.webMaster }}</webMaster>
         {% endif %}
-        {% if pubDate %}
-        <pubDate>{{ pubDate }}</pubDate>
+        {% if channel.pubDate %}
+        <pubDate>{{ channel.pubDate }}</pubDate>
         {% endif %}
-        {% if lastBuildDate %}
-        <lastBuildDate>{{ lastBuildDate }}</lastBuildDate>
+        {% if channel.lastBuildDate %}
+        <lastBuildDate>{{ channel.lastBuildDate }}</lastBuildDate>
         {% endif %}
-        {% if categories %}
-        {% with indent='        ',categories=categories %}
+        {% if channel.categories %}
+        {% with indent='        ',categories=channel.categories %}
         {% include 'category.xml' %}
         {% endwith %}
         {% endif %}
-        {% if generator %}
-        <generator>{{ generator }}</generator>
+        {% if channel.generator %}
+        <generator>{{ channel.generator }}</generator>
         {% endif %}
-        {% if docs %}
-        <docs>{{ docs }}</docs>
+        {% if channel.docs %}
+        <docs>{{ channel.docs }}</docs>
         {% endif %}
-        {% if ttl %}
-        <ttl>{{ ttl }}</ttl>
+        {% if channel.ttl %}
+        <ttl>{{ channel.ttl }}</ttl>
         {% endif %}
-        {% if image %}
+        {% if channel.image %}
         <image>
-            <url>{{ image.url }}</url>
-            {% if not image.title %}
-            <title>{{ title }}</title>
+            <url>{{ channel.image.url }}</url>
+            {% if not channel.image.title %}
+            <title>{{ channel.title }}</title>
             {% else %}
-            <title>{{ image.title }}</title>
+            <title>{{ channel.image.title }}</title>
             {% endif %}
-            {% if not image.link %}
-            <link>{{ link }}</link>
+            {% if not channel.image.link %}
+            <link>{{ channel.link }}</link>
             {% else %}
-            <link>{{ image.link }}</link>
+            <link>{{ channel.image.link }}</link>
             {% endif %}
-            {% if image.width %}
-            <width>{{ image.width }}</width>
+            {% if channel.image.width %}
+            <width>{{ channel.image.width }}</width>
             {% endif %}
-            {% if image.height %}
-            <height>{{ image.height }}</height>
+            {% if channel.image.height %}
+            <height>{{ channel.image.height }}</height>
             {% endif %}
         </image>
         {% endif %}
-        {% if cloud %}
-        <cloud domain="{{ cloud.domain }}" port="{{ cloud.port }}" path="{{ cloud.path }}" registerProcedure="{{ cloud.registerProcedure }}" protocol="{{ cloud.protocol }}" />
+        {% if channel.cloud %}
+        <cloud domain="{{ channel.cloud.domain }}" port="{{ channel.cloud.port }}" path="{{ channel.cloud.path }}" registerProcedure="{{ channel.cloud.registerProcedure }}" protocol="{{ channel.cloud.protocol }}" />
         {% endif %}
-        {% if atomSelfLink %}
-        <atom:link href="{{ atomSelfLink }}" rel="self" type="application/rss+xml" />
+        {% if channel.atomSelfLink %}
+        <atom:link href="{{ channel.atomSelfLink }}" rel="self" type="application/rss+xml" />
         {% endif %}
-        {% for item in items %}
+        {% for item in channel.items %}
         <item>
             {% if item.title %}
             <title>{{ item.title | e}}</title>
@@ -75,7 +75,7 @@
             <description>{{ item.description | e }}</description>
             {% endif %}
             {% if item.author %}
-            <author>{{ item.author }}
+            <author>{{ item.author }}</author>
             {% endif %}
             {% if item.categories %}
             {% with indent='            ',categories=item.categories %}

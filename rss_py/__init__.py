@@ -1,48 +1,19 @@
 from jinja2 import Environment, FileSystemLoader
 import os
-import datetime
+
+from .models import Channel, Item
+from .validators import CloudProtocol
+
 
 root = os.path.dirname(os.path.abspath(__file__))
 templates_dir = os.path.join(root, 'templates')
-env = Environment(loader = FileSystemLoader(templates_dir))
+env = Environment(loader=FileSystemLoader(templates_dir))
 env.lstrip_blocks = True
 env.trim_blocks = True
 template = env.get_template('rss.xml')
 
 
-from .validators import (
-    CloudProtocol, validate_source, validate_image, validate_cloud,
-    validate_enclosure
-)
-
-
-def handle_dates(dt_obj):
-    if not(dt_obj.tzinfo is not None and dt_obj.tzinfo.utcoffset(dt_obj) is not None):
-        raise Exception("Pass in a timezone aware datetime object.")
-    return dt_obj.strftime("%a, %d %b %Y %H:%M:%S %z")
-
-def build(**kwargs):
-    if kwargs.get("lastBuildDate"):
-        kwargs["lastBuildDate"] = handle_dates(kwargs["lastBuildDate"])
-    if kwargs.get("pubDate"):
-        kwargs["pubDate"] = handle_dates(kwargs["pubDate"])
-
-    if kwargs.get("cloud"):
-        validate_cloud(kwargs["cloud"])
-
-    if kwargs.get("image"):
-        validate_image(kwargs["image"])
-
-    for idx, item in enumerate(kwargs.get("items", [])):
-        if item.get("pubDate"):
-            kwargs["items"][idx]["pubDate"] = handle_dates(item["pubDate"])
-
-        if item.get("source"):
-            validate_source(item["source"])
-
-        if item.get("enclosure"):
-            validate_enclosure(item["enclosure"])
-
+def build(channel: Channel):
     return template.render(
-        **kwargs
+        channel=channel
     )
