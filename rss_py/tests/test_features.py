@@ -1,15 +1,17 @@
 from unittest import TestCase
 
-import rss_py
+from rss_py import Channel, Item, build
 
 
 class TestDate(TestCase):
     def test_with_tz(self):
-        r = rss_py.build(
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            atomSelfLink="http://example.com/rss.xml"
+        r = build(
+            channel=Channel(
+	            title="Bob's blog",
+	            link="https://example.com/",
+	            description="A collection of Bob's thoughts.",
+	            atomSelfLink="http://example.com/rss.xml"
+            )
         )
         self.assertEqual(r,
             """<?xml version="1.0"?>
@@ -24,15 +26,17 @@ class TestDate(TestCase):
         )
 
     def test_category(self):
-        r = rss_py.build(
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            categories=[
-                {
-                    "text": "transport/rail",
-                }
-            ]
+        r = build(
+            channel=Channel(
+	            title="Bob's blog",
+	            link="https://example.com/",
+	            description="A collection of Bob's thoughts.",
+	            categories=[
+	                {
+	                    "text": "transport/rail",
+	                }
+	            ]
+            )
         )
         self.assertEqual(r,
             """<?xml version="1.0"?>
@@ -44,21 +48,23 @@ class TestDate(TestCase):
         <category>transport/rail</category>
     </channel>
 </rss>"""
-        )
+            )
 
     def test_categories(self):
-        r = rss_py.build(
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            categories=[
-                {
-                    "text": "transport/rail",
-                },
-                {
-                    "text": "post",
-                }
-            ]
+        r = build(
+            channel=Channel(
+	            title="Bob's blog",
+	            link="https://example.com/",
+	            description="A collection of Bob's thoughts.",
+	            categories=[
+	                {
+	                    "text": "transport/rail",
+	                },
+	                {
+	                    "text": "post",
+	                }
+	            ]
+            )
         )
         self.assertEqual(r,
             """<?xml version="1.0"?>
@@ -74,20 +80,22 @@ class TestDate(TestCase):
         )
 
     def test_categories_domain(self):
-        r = rss_py.build(
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            categories=[
-                {
-                    "text": "transport/rail",
-                    "domain": "tags"
-                },
-                {
-                    "text": "post",
-                    "domain": "template"
-                }
-            ]
+        r = build(
+            channel=Channel(
+	            title="Bob's blog",
+	            link="https://example.com/",
+	            description="A collection of Bob's thoughts.",
+	            categories=[
+	                {
+	                    "text": "transport/rail",
+	                    "domain": "tags"
+	                },
+	                {
+	                    "text": "post",
+	                    "domain": "template"
+	                }
+	            ]
+            )
         )
         self.assertEqual(r,
             """<?xml version="1.0"?>
@@ -103,20 +111,22 @@ class TestDate(TestCase):
         )
 
     def test_category_item(self):
-        r = rss_py.build(
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            items=[
-                {
-                    'title': 'Post1',
-                    "categories":[
-                        {
-                            "text": "transport/rail",
-                        }
-                    ]
-                }
-            ]
+        r = build(
+            channel=Channel(
+	            title="Bob's blog",
+	            link="https://example.com/",
+	            description="A collection of Bob's thoughts.",
+	            items=[
+	                Item(
+		                title='Post1',
+		                categories=[
+		                    {
+		                        "text": "transport/rail",
+		                    }
+		                ]
+	                )
+	            ]
+            )
         )
         self.assertEqual(r,
             """<?xml version="1.0"?>

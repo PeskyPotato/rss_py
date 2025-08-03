@@ -1,21 +1,23 @@
 from unittest import TestCase
 from datetime import datetime, timezone
-import rss_py
+from rss_py import Channel, Item, build
 
 
 class TestItem(TestCase):
     def test_item_comments(self):
-        r = rss_py.build(
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            items=[
-                {
-                    "title": "Post 1",
-                    "pubDate": datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
-                    "comments": "http://example.com/post-1/comments.asp"
-                }
-            ]
+        r = build(
+            channel=Channel(
+                title="Bob's blog",
+                link="https://example.com/",
+                description="A collection of Bob's thoughts.",
+                items=[
+                    Item(
+                        title="Post 1",
+                        pubDate=datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
+                        comments="http://example.com/post-1/comments.asp"
+                    )
+                ]
+            )
         )
         self.assertEqual(r,
             """<?xml version="1.0"?>
@@ -34,20 +36,22 @@ class TestItem(TestCase):
         )
 
     def test_item_source(self):
-        r = rss_py.build(
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            items=[
-                {
-                    "title": "Post 1",
-                    "pubDate": datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
-                    "source": {
-                        "url": "https://example.com/",
-                        "title": "Title for item"
-                    }
-                }
-            ]
+        r = build(
+            channel=Channel(
+                title="Bob's blog",
+                link="https://example.com/",
+                description="A collection of Bob's thoughts.",
+                items=[
+                    Item(
+                        title="Post 1",
+                        pubDate=datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
+                        source={
+                            "url": "https://example.com/",
+                            "title": "Title for item"
+                        }
+                    )
+                ]
+            )
         )
         self.assertEqual(r,
             """<?xml version="1.0"?>
@@ -68,34 +72,31 @@ class TestItem(TestCase):
     def test_item_source_no_url(self):
         self.assertRaises(
             ValueError,
-            rss_py.build,
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            items=[{
-                "title": "Post with a source",
-                "pubDate": datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
-                "source": {
-                    "title": "Title for item"
-                }
-            }]
+            Item,
+            title="Post with a source",
+            pubDate=datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
+            source={
+                "title": "Title for item"
+            }
         )
 
     def test_item_source_no_title(self):
-        r = rss_py.build(
-            title="Example feed",
-            link="https://example.com/",
-            description="A feed simply for example purposes.",
-            items=[
-                {
-                    "title": "The first post",
-                    "pubDate": datetime(2024, 8, 22, 6, 49, 12, tzinfo=timezone.utc),
-                    "description": "This posts source doesn't have text but that seems to be okay.",
-                    "source": {
-                        "url": "https://example.com/post.xml",
-                    }
-                }
-            ]
+        r = build(
+            channel=Channel(
+                title="Example feed",
+                link="https://example.com/",
+                description="A feed simply for example purposes.",
+                items=[
+                    Item(
+                        title="The first post",
+                        pubDate=datetime(2024, 8, 22, 6, 49, 12, tzinfo=timezone.utc),
+                        description="This posts source doesn't have text but that seems to be okay.",
+                        source={
+                            "url": "https://example.com/post.xml",
+                        }
+                    )
+                ]
+            )
         )
         self.assertEqual(r,
             """<?xml version="1.0"?>
@@ -115,21 +116,23 @@ class TestItem(TestCase):
         )
 
     def test_item_enclosure(self):
-        r = rss_py.build(
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            items=[
-                {
-                    "title": "Post 1",
-                    "pubDate": datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
-                    "enclosure": {
-                        "url": "https://example.com/",
-                        "length": 123456,
-                        "type": "audio/mpeg"
-                    }
-                }
-            ]
+        r = build(
+            channel=Channel(
+                title="Bob's blog",
+                link="https://example.com/",
+                description="A collection of Bob's thoughts.",
+                items=[
+                    Item(
+                        title="Post 1",
+                        pubDate=datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
+                        enclosure={
+                            "url": "https://example.com/",
+                            "length": 123456,
+                            "type": "audio/mpeg"
+                        }
+                    )
+                ]
+            )
         )
         self.assertEqual(r,
             """<?xml version="1.0"?>
@@ -150,69 +153,49 @@ class TestItem(TestCase):
     def test_item_enclosure_no_url(self):
         self.assertRaises(
             ValueError,
-            rss_py.build,
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            items=[{
-                "title": "Post with a source",
-                "pubDate": datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
-                "enclosure": {
-                    "length": 12345,
-                    "type": "audio/mpeg"
-                }
-            }]
+            Item,
+            title="Post with a source",
+            pubDate=datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
+            enclosure={
+                "length": 12345,
+                "type": "audio/mpeg"
+            }
         )
 
     def test_item_enclosure_negative_length(self):
         self.assertRaises(
             Exception,
-            rss_py.build,
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            items=[{
-                "title": "Post with a source",
-                "pubDate": datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
-                "enclosure": {
-                    "url": "https://example.com/",
-                    "length": -1234,
-                    "type": "audio/mpeg"
-                }
-            }]
+            Item,
+            title="Post with a source",
+            pubDate=datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
+            enclosure={
+                "url": "https://example.com/",
+                "length": -1234,
+                "type": "audio/mpeg"
+            }
         )
 
     def test_item_enclosure_non_int_length(self):
         self.assertRaises(
             TypeError,
-            rss_py.build,
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            items=[{
-                "title": "Post with a source",
-                "pubDate": datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
-                "enclosure": {
-                    "url": "https://example.com/",
-                    "length": "a string",
-                    "type": "audio/mpeg"
-                }
-            }]
+            Item,
+            title="Post with a source",
+            pubDate=datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
+            enclosure={
+                "url": "https://example.com/",
+                "length": "a string",
+                "type": "audio/mpeg"
+            }
         )
 
     def test_item_enclosure_no_type(self):
         self.assertRaises(
             ValueError,
-            rss_py.build,
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            items=[{
-                "title": "Post with a source",
-                "pubDate": datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
-                "enclosure": {
-                    "url": "https://example.com/",
-                    "length": "4321"
-                }
-            }]
+            Item,
+            title="Post with a source",
+            pubDate=datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc),
+            enclosure={
+                "url": "https://example.com/",
+                "length": "4321"
+            }
         )

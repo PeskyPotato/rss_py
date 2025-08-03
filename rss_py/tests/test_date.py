@@ -1,17 +1,19 @@
 from unittest import TestCase
 
-import rss_py
+from rss_py import Channel, Item, build
 
 import datetime
 import pytz
 
 class TestDate(TestCase):
     def test_with_tz(self):
-        r = rss_py.build(
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            lastBuildDate=datetime.datetime(2024, 7, 11, 15, 42, 59, tzinfo=pytz.UTC)
+        r = build(
+            channel=Channel(
+                title="Bob's blog",
+                link="https://example.com/",
+                description="A collection of Bob's thoughts.",
+                lastBuildDate=datetime.datetime(2024, 7, 11, 15, 42, 59, tzinfo=pytz.UTC)
+            )
         )
         self.assertEqual(r,
             """<?xml version="1.0"?>
@@ -28,27 +30,29 @@ class TestDate(TestCase):
     def test_without_tz(self):
         self.assertRaises(
             Exception,
-            rss_py.build,
+            Channel,
             title="Bob's blog",
             link="https://example.com/",
             description="A collection of Bob's thoughts.",
             lastBuildDate=datetime.datetime(2024, 7, 11, 15, 42, 59))
         
     def test_with_tz_items(self):
-        r = rss_py.build(
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            items=[
-                {
-                    "title": "Post 1",
-                    "pubDate": datetime.datetime(2024, 6, 21, 7, 18, 32, tzinfo=pytz.UTC)
-                },
-                {
-                    "title": "Post 2",
-                    "pubDate": datetime.datetime(2024, 7, 1, 15, 42, 59, tzinfo=pytz.UTC)
-                }
-            ]
+        r = build(
+            channel=Channel(
+                title="Bob's blog",
+                link="https://example.com/",
+                description="A collection of Bob's thoughts.",
+                items=[
+                    Item(
+                        title="Post 1",
+                        pubDate=datetime.datetime(2024, 6, 21, 7, 18, 32, tzinfo=pytz.UTC)
+                    ),
+                    Item(
+                        title="Post 2",
+                        pubDate=datetime.datetime(2024, 7, 1, 15, 42, 59, tzinfo=pytz.UTC)
+                    )
+                ]
+            )
         )
         self.assertEqual(r,
             """<?xml version="1.0"?>
@@ -71,21 +75,19 @@ class TestDate(TestCase):
     def test_without_tz_item(self):
         self.assertRaises(
             Exception,
-            rss_py.build,
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            items=[{
-                "title": "Post 1",
-                "pubDate": datetime.datetime(2024, 7, 11, 15, 42, 59)
-            }])
+            Item,
+            title="Post 1",
+            pubDate=datetime.datetime(2024, 7, 11, 15, 42, 59)
+        )
         
     def test_with_tz_pubDate(self):
-        r = rss_py.build(
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            pubDate=datetime.datetime(2024, 6, 21, 7, 18, 32, tzinfo=pytz.UTC)
+        r = build(
+            channel=Channel(
+                title="Bob's blog",
+                link="https://example.com/",
+                description="A collection of Bob's thoughts.",
+                pubDate=datetime.datetime(2024, 6, 21, 7, 18, 32, tzinfo=pytz.UTC)
+            )
         )
         self.assertEqual(r,
             """<?xml version="1.0"?>
@@ -101,7 +103,7 @@ class TestDate(TestCase):
     def test_without_tz_pubDate(self):
         self.assertRaises(
             Exception,
-            rss_py.build,
+            Channel,
             title="Bob's blog",
             link="https://example.com/",
             pubDate=datetime.datetime(2024, 7, 5, 15, 42, 59),

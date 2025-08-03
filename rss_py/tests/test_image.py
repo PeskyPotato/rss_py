@@ -1,20 +1,22 @@
 from unittest import TestCase
 from datetime import datetime, timezone
-import rss_py
+from rss_py import Channel, Item, build
 
 
 class TestDate(TestCase):
     def test_image_title_link(self):
-        r = rss_py.build(
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            image = {
-                "url": "http://example.com/static/header.png",
-                "title": "Header image for Bob's blog.",
-                "link": "https://example.com/index.html"
-            },
-            atomSelfLink="http://example.com/rss.xml"
+        r = build(
+            channel=Channel(
+                title="Bob's blog",
+                link="https://example.com/",
+                description="A collection of Bob's thoughts.",
+                image = {
+                    "url": "http://example.com/static/header.png",
+                    "title": "Header image for Bob's blog.",
+                    "link": "https://example.com/index.html"
+                },
+                atomSelfLink="http://example.com/rss.xml"
+            )
         )
         self.assertEqual(r,
             """<?xml version="1.0"?>
@@ -33,14 +35,16 @@ class TestDate(TestCase):
 </rss>"""
         )
     def test_image(self):
-        r = rss_py.build(
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            image = {
-                "url": "http://example.com/static/header.png"
-            },
-            atomSelfLink="http://example.com/rss.xml"
+        r = build(
+            channel=Channel(
+                title="Bob's blog",
+                link="https://example.com/",
+                description="A collection of Bob's thoughts.",
+                image = {
+                    "url": "http://example.com/static/header.png"
+                },
+                atomSelfLink="http://example.com/rss.xml"
+            )
         )
         self.assertEqual(r,
             """<?xml version="1.0"?>
@@ -60,15 +64,17 @@ class TestDate(TestCase):
         )
 
     def test_image_width(self):
-        r = rss_py.build(
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            image = {
-                "url": "http://example.com/static/header.png",
-                "width": 50
-            },
-            atomSelfLink="http://example.com/rss.xml"
+        r = build(
+            channel=Channel(
+                title="Bob's blog",
+                link="https://example.com/",
+                description="A collection of Bob's thoughts.",
+                image = {
+                    "url": "http://example.com/static/header.png",
+                    "width": 50
+                },
+                atomSelfLink="http://example.com/rss.xml"
+            )
         )
         self.assertEqual(r,
             """<?xml version="1.0"?>
@@ -89,16 +95,18 @@ class TestDate(TestCase):
         )
 
     def test_image_max_dimension(self):
-        r = rss_py.build(
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            image = {
-                "url": "http://example.com/static/header.png",
-                "width": 150,
-                "height": -10
-            },
-            atomSelfLink="http://example.com/rss.xml"
+        r = build(
+            channel=Channel(
+                title="Bob's blog",
+                link="https://example.com/",
+                description="A collection of Bob's thoughts.",
+                image = {
+                    "url": "http://example.com/static/header.png",
+                    "width": 150,
+                    "height": -10
+                },
+                atomSelfLink="http://example.com/rss.xml"
+            )
         )
         self.assertEqual(r,
             """<?xml version="1.0"?>
@@ -122,7 +130,7 @@ class TestDate(TestCase):
     def test_image_height_str(self):
         self.assertRaises(
             TypeError,
-            rss_py.build,
+            Channel,
             title="Bob's blog",
             link="https://example.com/",
             description="A collection of Bob's thoughts.",
@@ -135,7 +143,7 @@ class TestDate(TestCase):
     def test_image_width_str(self):
         self.assertRaises(
             TypeError,
-            rss_py.build,
+            Channel,
             title="Bob's blog",
             link="https://example.com/",
             description="A collection of Bob's thoughts.",
@@ -146,19 +154,21 @@ class TestDate(TestCase):
         )
 
     def test_image_post(self):
-        r = rss_py.build(
-            title="Bob's blog",
-            link="https://example.com/",
-            description="A collection of Bob's thoughts.",
-            image = {
-                "url": "http://example.com/static/header.png",
-            },
-            items=[
-                {
-                    "title": "Post 1",
-                    "pubDate": datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc)
-                }
-            ]
+        r = build(
+            channel=Channel(
+                title="Bob's blog",
+                link="https://example.com/",
+                description="A collection of Bob's thoughts.",
+                image = {
+                    "url": "http://example.com/static/header.png",
+                },
+                items=[
+                    Item(
+                        title="Post 1",
+                        pubDate=datetime(2024, 6, 21, 7, 18, 32, tzinfo=timezone.utc)
+                    )
+                ]
+            )
         )
         self.assertEqual(r,
             """<?xml version="1.0"?>
