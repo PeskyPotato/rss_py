@@ -9,7 +9,7 @@ def assert_require_fields(name, element, fields):
 
 
 # Validate source
-# TODO: Check that URL is valid
+# TODO(#19): Check that URL is valid
 def validate_source(source):
     if not source.get("url"):
         raise ValueError("Item source must have an URL.")
