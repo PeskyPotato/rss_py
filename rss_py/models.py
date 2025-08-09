@@ -1,14 +1,8 @@
 import datetime
 from .validators import (
     validate_source, validate_image, validate_cloud,
-    validate_enclosure
+    validate_enclosure, validate_date
 )
-
-
-def handle_dates(dt_obj):
-    if not(dt_obj.tzinfo is not None and dt_obj.tzinfo.utcoffset(dt_obj) is not None):
-        raise Exception("Pass in a timezone aware datetime object.")
-    return dt_obj.strftime("%a, %d %b %Y %H:%M:%S %z")
 
 
 class Cloud:
@@ -36,8 +30,8 @@ class Item:
         self.pubDate = pubDate
         self.source = source
 
-        if self.pubDate and isinstance(self.pubDate, datetime.datetime):
-            self.pubDate = handle_dates(self.pubDate)
+        if self.pubDate:
+            self.pubDate = validate_date(self.pubDate, "Item pubDate")
 
         if self.source:
             validate_source(self.source)
@@ -70,11 +64,11 @@ class Channel:
         self.atomSelfLink = atomSelfLink
         self.items = items or []
 
-        if self.pubDate and isinstance(self.pubDate, datetime.datetime):
-            self.pubDate = handle_dates(self.pubDate)
+        if self.pubDate:
+            self.pubDate = validate_date(self.pubDate, "Channel pubDate")
 
-        if self.lastBuildDate and isinstance(self.lastBuildDate, datetime.datetime):
-            self.lastBuildDate = handle_dates(self.lastBuildDate)
+        if self.lastBuildDate:
+            self.lastBuildDate = validate_date(self.lastBuildDate, "Channel lastBuildDate")
 
         if self.cloud:
             validate_cloud(self.cloud)

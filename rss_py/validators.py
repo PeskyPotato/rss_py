@@ -1,4 +1,5 @@
 from enum import Enum
+from datetime import datetime
 
 
 def assert_require_fields(name, element, fields):
@@ -66,3 +67,12 @@ def validate_enclosure(enclosure):
     enclosure["length"] = str(enclosure["length"])
     
     return enclosure
+
+
+# Validate dates are in RFC-822 format with timezone
+def validate_date(dt_obj, field):
+    if not isinstance(dt_obj, datetime):
+        raise TypeError(f"{field} is not a valid datetime object.")
+    if not(dt_obj.tzinfo is not None and dt_obj.tzinfo.utcoffset(dt_obj) is not None):
+        raise Exception("Pass in a timezone aware datetime object.")
+    return dt_obj.strftime("%a, %d %b %Y %H:%M:%S %z")
