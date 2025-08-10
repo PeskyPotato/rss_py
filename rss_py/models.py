@@ -3,6 +3,7 @@ from .validators import (
     validate_source, validate_image, validate_cloud,
     validate_enclosure, validate_date
 )
+import warnings
 
 
 class Cloud:
@@ -14,6 +15,18 @@ class Cloud:
         self.protocol = protocol
 
         validate_cloud(self)
+
+
+class TextInput:
+    def __init__(self, title, description, name, link):
+        self.title = title
+        self.description = description
+        self.name = name
+        # TODO: Check if textInput link is valid URL
+        #   Pending implementation of #19
+        self.link = link
+
+        warnings.warn(UserWarning("Avoid Text Input: https://validator.w3.org/feed/docs/warning/AvoidTextInput.html"))
 
 class Item:
     def __init__(self, title=None, link=None, description=None, author=None,
@@ -45,7 +58,8 @@ class Channel:
                  copyright=None, managingEditor=None, webMaster=None,
                  pubDate=None, lastBuildDate=None, categories=None,
                  generator=None, docs=None, cloud=None, ttl=None,
-                 image=None, atomSelfLink=None, items=None):
+                 image=None, atomSelfLink=None, items=None,
+                 textInput: 'TextInput'=None):
         self.title = title
         self.link = link
         self.description = description
@@ -63,6 +77,7 @@ class Channel:
         self.image = image
         self.atomSelfLink = atomSelfLink
         self.items = items or []
+        self.textInput = textInput
 
         if self.pubDate:
             self.pubDate = validate_date(self.pubDate, "Channel pubDate")
