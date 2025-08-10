@@ -69,6 +69,25 @@ datetime(2024, 8, 18, 14, 42, 56, tzinfo=timezone.utc)
 
 Read more about RSS dates from [W3C's Feed Validation Service.](https://validator.w3.org/feed/docs/error/InvalidRFC2822Date.html)
 
+### Avoid Text Input
+An RSS Channel optionally supports the [`<textInput>` sub-element](https://www.rssboard.org/rss-specification#lttextinputgtSubelementOfLtchannelgt). This specification describes this element as "something of a mystery". Many aggregators also ignore this field and so a warning [is emitted](https://validator.w3.org/feed/docs/warning/AvoidTextInput.html) if used.
+
+This sub-element can be defined by using the TextInput class and passing it as a parameter of Channel.
+
+```python
+channel = rss_py.Channel(
+    title="Bob's blog",
+    link="https://example.come/",
+    description="A collection of Bob's best thoughts.",
+    textInput=rss_py.TextInput(
+        title="Submit feedback",
+        description="Could Bob do better? Let him know!",
+        name="Feedback for Bob",
+        link="https://example.com/feedback/submit"
+    )
+)
+```
+
 ## Adding channel image
 An optional channel image can be added by providing a URL to a gif, jpeg, or png image.
 

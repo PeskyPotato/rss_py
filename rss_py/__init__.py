@@ -1,7 +1,7 @@
 from jinja2 import Environment, FileSystemLoader
 import os
 
-from .models import Channel, Item, Cloud
+from .models import Channel, Item, Cloud, TextInput
 from .validators import CloudProtocol
 
 
