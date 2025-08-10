@@ -22,7 +22,7 @@ class TextInput:
         self.title = title
         self.description = description
         self.name = name
-        # TODO: Check if textInput link is valid URL
+        # TODO(#21): Check if textInput link is valid URL
         #   Pending implementation of #19
         self.link = link
 
