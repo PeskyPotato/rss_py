@@ -77,7 +77,7 @@
             <title>{{ item.title | e}}</title>
             {% endif %}
             {% if item.link %}
-            <link>{{ item.link }}</link>
+            <link>{{ item.link | e}}</link>
             {% endif %}
             {% if item.description %}
             <description>{{ item.description | e }}</description>
@@ -96,7 +96,7 @@
             {%  if item.guid %}
             <guid>{{ item.guid }}</guid>
             {% elif item.link %}
-            <guid>{{ item.link }}</guid>
+            <guid>{{ item.link | e}}</guid>
             {% endif %}
             {% if item.comments %}
             <comments>{{ item.comments }}</comments>
